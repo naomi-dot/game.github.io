@@ -33,34 +33,71 @@
             // 检查是否达到目标分数
             if (score >= targetScore) {
                 // 游戏胜利逻辑
-                // ...
+                alert("恭喜！您达到了目标分数！");
+                resetGame();
             }
         }
 
-        // 新增玩法：特殊方块和道具
-        function activateSpecialBlock(row, column) {
-            // 处理特殊方块的逻辑
+        // 游戏板点击事件处理
+        function handleBlockClick(event) {
+            var clickedBlock = event.target;
+
+            if (clickedBlock.classList.contains("selected")) {
+                clickedBlock.classList.remove("selected");
+            } else {
+                var selectedBlocks = document.querySelectorAll(".selected");
+
+                if (selectedBlocks.length === 0) {
+                    clickedBlock.classList.add("selected");
+                } else if (selectedBlocks.length === 1) {
+                    var firstBlock = selectedBlocks[0];
+
+                    // 交换方块位置
+                    swapBlocks(firstBlock, clickedBlock);
+
+                    // 判断是否有匹配
+                    var isMatch = checkForMatches();
+
+                    if (isMatch) {
+                        // 处理匹配的方块逻辑
+                        handleMatches();
+                    } else {
+                        // 交换回来
+                        swapBlocks(firstBlock, clickedBlock);
+                    }
+
+                    // 取消选择
+                    selectedBlocks.forEach(function (block) {
+                        block.classList.remove("selected");
+                    });
+                }
+            }
+        }
+
+        // 交换方块位置
+        function swapBlocks(block1, block2) {
+            // 交换逻辑
             // ...
         }
 
-        // 新增玩法：连击和连锁反应
-        function handleMatches(matches) {
-            // 处理匹配的方块逻辑
+        // 检查是否有匹配
+        function checkForMatches() {
+            // 检查逻辑
+            // ...
+        }
+
+        // 处理匹配的方块逻辑
+        function handleMatches() {
+            // 处理匹配逻辑
             // ...
 
             // 更新分数
-            updateScore(matches.length * 10);
-
-            // 检查是否有连锁反应
-            if (matches.length > 2) {
-                // 处理连锁反应的逻辑
-                // ...
-            }
+            updateScore(10);
         }
 
-        // 新增玩法：多人游戏模式
-        function multiplayerMode() {
-            // 处理多人游戏逻辑
+        // 重置游戏
+        function resetGame() {
+            // 重置游戏逻辑
             // ...
         }
 
@@ -77,6 +114,5 @@
                 // ...
             }
         });
-    </script>
-</body>
-</html>
+
+        // 绑定方块点击事件
