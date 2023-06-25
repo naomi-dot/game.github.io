@@ -20,26 +20,23 @@
 
     <script>
         // 游戏逻辑
-        // ...
-
-        // 新增玩法：计分和目标
         var score = 0;
-        var targetScore = 1000; // 目标分数
+        var targetScore = 1000;
+        var gameStarted = false;
 
         function updateScore(points) {
             score += points;
             document.getElementById("score").textContent = "分数: " + score;
 
-            // 检查是否达到目标分数
             if (score >= targetScore) {
-                // 游戏胜利逻辑
                 alert("恭喜！您达到了目标分数！");
                 resetGame();
             }
         }
 
-        // 游戏板点击事件处理
         function handleBlockClick(event) {
+            if (!gameStarted) return;
+
             var clickedBlock = event.target;
 
             if (clickedBlock.classList.contains("selected")) {
@@ -52,21 +49,16 @@
                 } else if (selectedBlocks.length === 1) {
                     var firstBlock = selectedBlocks[0];
 
-                    // 交换方块位置
                     swapBlocks(firstBlock, clickedBlock);
 
-                    // 判断是否有匹配
                     var isMatch = checkForMatches();
 
                     if (isMatch) {
-                        // 处理匹配的方块逻辑
                         handleMatches();
                     } else {
-                        // 交换回来
                         swapBlocks(firstBlock, clickedBlock);
                     }
 
-                    // 取消选择
                     selectedBlocks.forEach(function (block) {
                         block.classList.remove("selected");
                     });
@@ -74,45 +66,38 @@
             }
         }
 
-        // 交换方块位置
         function swapBlocks(block1, block2) {
             // 交换逻辑
             // ...
         }
 
-        // 检查是否有匹配
         function checkForMatches() {
             // 检查逻辑
             // ...
         }
 
-        // 处理匹配的方块逻辑
         function handleMatches() {
             // 处理匹配逻辑
             // ...
 
-            // 更新分数
             updateScore(10);
         }
 
-        // 重置游戏
         function resetGame() {
             // 重置游戏逻辑
             // ...
         }
 
-        // 游戏开始按钮点击事件
         document.getElementById("start-button").addEventListener("click", function() {
-            // 启动游戏
-            // ...
-
-            // 新增玩法：根据模式选择适当的逻辑
-            if (multiplayerMode) {
-                multiplayerMode();
-            } else {
-                // 单人游戏逻辑
-                // ...
-            }
+            gameStarted = true;
+            resetGame();
         });
 
         // 绑定方块点击事件
+        var blocks = document.querySelectorAll(".game-board .block");
+        blocks.forEach(function (block) {
+            block.addEventListener("click", handleBlockClick);
+        });
+    </script>
+</body>
+</html>
